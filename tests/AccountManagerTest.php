@@ -53,5 +53,14 @@ class AccountManagerTest extends TestCase {
         $this->assertNull($this->manager->getBalance('101'));
     }
 
+    public function testTransferBetweenAccounts(): void
+    {
+        $this->manager->manageAccount('100', 20);
+        $result = $this->manager->transfer('100', '200', 10);
+
+        $this->assertEquals(['id' => '100', 'balance' => 10], $result['origin']);
+        $this->assertEquals(['id' => '200', 'balance' => 10], $result['destination']);
+    }
+
 }
 
