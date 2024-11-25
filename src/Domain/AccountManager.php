@@ -36,5 +36,20 @@ class AccountManager {
 
         return $this->accounts[$accountId];
     }
+    
+    public function transfer(string $originId, string $destinationId, int $amount): ?array
+    {
+        if (!isset($this->accounts[$originId])) {
+            return null;
+        }
+
+        $this->withdraw($originId, $amount);
+        $destinationAccount = $this->manageAccount($destinationId, $amount);
+
+        return [
+            'origin' => $this->accounts[$originId],
+            'destination' => $destinationAccount,
+        ];
+    }
 
 }
