@@ -14,11 +14,17 @@ class AccountManagerTest extends TestCase {
         $this->manager = new AccountManager();
     }
 
-    public function testReset(): void{
-        
+    public function testAccountCreation(): void
+    {
+        $account = $this->manager->createAccount('100', 10);
+        $this->assertEquals(['id' => '100', 'balance' => 10], $account);
     }
 
-    public function testGetBalace(): void{
+    public function testReset(): void{
+
+    }
+
+    public function testGetBalance(): void{
 
     }
 
