@@ -39,5 +39,12 @@ class AccountManagerTest extends TestCase {
         $this->assertEquals(['id' => '100', 'balance' => 30], $account);
     }
 
+    public function testWithdrawFromExistingAccount(): void
+    {
+        $this->manager->manageAccount('100', 20);
+        $account = $this->manager->withdraw('100', 5);
+        $this->assertEquals(['id' => '100', 'balance' => 15], $account);
+    }
+
 }
 
