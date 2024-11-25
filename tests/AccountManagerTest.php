@@ -6,5 +6,13 @@ use PHPUnit\Framework\TestCase;
 
 class AccountManagerTest extends TestCase {
 
+    public function testReset(): void{
+        
+    }
+
+    public function testGetBalace(): void{
+
+    }
+
 }
 
