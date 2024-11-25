@@ -25,7 +25,9 @@ class AccountManagerTest extends TestCase {
     }
 
     public function testGetBalance(): void{
-
+        $this->manager->createAccount('100', 50);
+        $balance = $this->manager->getBalance('100');
+        $this->assertEquals(50, $balance);
     }
 
 }
