@@ -32,5 +32,12 @@ class AccountManagerTest extends TestCase {
         $this->assertNull($this->manager->getBalance('100'));
     }
 
+    public function testDepositIntoExistingAccount(): void
+    {
+        $this->manager->manageAccount('100', 10);
+        $account = $this->manager->manageAccount('100', 20);
+        $this->assertEquals(['id' => '100', 'balance' => 30], $account);
+    }
+
 }
 
