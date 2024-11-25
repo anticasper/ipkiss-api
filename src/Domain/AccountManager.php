@@ -26,4 +26,15 @@ class AccountManager {
         $this->accounts = [];
     }
 
+    public function withdraw(string $accountId, int $amount): ?array
+    {
+        if (!isset($this->accounts[$accountId])) {
+            return null;
+        }
+
+        $this->accounts[$accountId]['balance'] -= $amount;
+
+        return $this->accounts[$accountId];
+    }
+
 }
