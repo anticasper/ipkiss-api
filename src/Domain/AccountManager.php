@@ -16,15 +16,14 @@ class AccountManager {
         return $this->accounts[$accountId];
     }
 
-    public function reset(): void
-    {
-        
-    }
-
     public function getBalance(string $accountId): ?int
     {
         return $this->accounts[$accountId]['balance'] ?? null;
     }
 
+    public function reset(): void
+    {
+        $this->accounts = [];
+    }
 
 }
