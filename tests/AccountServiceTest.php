@@ -15,6 +15,14 @@ class AccountServiceTest extends TestCase {
         $manager = new AccountManager();
         $this->service = new AccountService($manager);
     }
+    
+    public function testResetState(): void
+    {
+        $this->service->deposit('100', 50);
+        $this->service->resetState();
+        $balance = $this->service->getBalance('100');
+        $this->assertNull($balance);
+    }
 
 }
 
