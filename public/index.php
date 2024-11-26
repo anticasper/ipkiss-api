@@ -19,5 +19,13 @@ $app = AppFactory::create();
 
 $app->addBodyParsingMiddleware();
 
+$app->post('/reset', function (Request $request, Response $response) use ($service) {
+    $service->resetState();
+    $response->getBody()->write("OK");
+    return $response->withHeader('Content-Type', 'text/plain')->withStatus(200);
+});
+
+
+
 
 $app->run();
