@@ -26,6 +26,19 @@ $app->post('/reset', function (Request $request, Response $response) use ($servi
 });
 
 
+$app->get('/balance', function (Request $request, Response $response) use ($service) {
+    $queryParams = $request->getQueryParams();
+    $accountId = $queryParams['account_id'] ?? null;
+
+    if (!$accountId || ($balance = $service->getBalance($accountId)) === null) {
+        $response->getBody()->write('0');
+        return $response->withStatus(404);
+    }
+
+    $response->getBody()->write((string) $balance);
+    return $response->withHeader('Content-Type', 'text/plain')->withStatus(200);
+});
+
 
 
 $app->run();
