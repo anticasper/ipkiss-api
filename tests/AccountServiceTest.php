@@ -37,6 +37,11 @@ class AccountServiceTest extends TestCase {
         $this->assertNull($balance);
     }
 
+    public function testDeposit(): void
+    {
+        $account = $this->service->deposit('100', 20);
+        $this->assertEquals(['id' => '100', 'balance' => 20], $account);
+    }
 
 }
 
