@@ -31,5 +31,12 @@ class AccountServiceTest extends TestCase {
         $this->assertEquals(50, $balance);
     }
 
+    public function testGetBalanceForNonExistingAccount(): void
+    {
+        $balance = $this->service->getBalance('999');
+        $this->assertNull($balance);
+    }
+
+
 }
 
