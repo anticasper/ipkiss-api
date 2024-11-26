@@ -39,6 +39,37 @@ $app->get('/balance', function (Request $request, Response $response) use ($serv
     return $response->withHeader('Content-Type', 'text/plain')->withStatus(200);
 });
 
+$app->post('/event', function (Request $request, Response $response) use ($service) {
+    $data = $request->getParsedBody();
+
+    switch ($data['type']) {
+        case 'deposit':
+            $result = $service->deposit($data['destination'], $data['amount']);
+            $response->getBody()->write(json_encode(['destination' => $result]));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+
+        case 'withdraw':
+            $result = $service->withdraw($data['origin'], $data['amount']);
+            if (!$result) {
+                $response->getBody()->write('0');
+                return $response->withStatus(404);
+            }
+            $response->getBody()->write(json_encode(['origin' => $result]));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+
+        case 'transfer':
+            $result = $service->transfer($data['origin'], $data['destination'], $data['amount']);
+            if (!$result) {
+                $response->getBody()->write('0');
+                return $response->withStatus(404);
+            }
+            $response->getBody()->write(json_encode($result));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+
+        default:
+            return $response->withStatus(400);
+    }
+});
 
 
 $app->run();
