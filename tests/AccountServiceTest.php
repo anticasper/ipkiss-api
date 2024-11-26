@@ -24,5 +24,12 @@ class AccountServiceTest extends TestCase {
         $this->assertNull($balance);
     }
 
+    public function testGetBalanceForExistingAccount(): void
+    {
+        $this->service->deposit('100', 50);
+        $balance = $this->service->getBalance('100');
+        $this->assertEquals(50, $balance);
+    }
+
 }
 
