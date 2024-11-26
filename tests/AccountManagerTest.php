@@ -21,12 +21,14 @@ class AccountManagerTest extends TestCase {
     }
 
     public function testGetBalance(): void{
+        $this->manager->reset();
         $this->manager->manageAccount('100', 50);
         $balance = $this->manager->getBalance('100');
         $this->assertEquals(50, $balance);
     }
 
     public function testReset(): void{
+        $this->manager->reset();
         $this->manager->manageAccount('100', 50);
         $this->manager->reset();
         $this->assertNull($this->manager->getBalance('100'));
@@ -34,6 +36,7 @@ class AccountManagerTest extends TestCase {
 
     public function testDepositIntoExistingAccount(): void
     {
+        $this->manager->reset();
         $this->manager->manageAccount('100', 10);
         $account = $this->manager->manageAccount('100', 20);
         $this->assertEquals(['id' => '100', 'balance' => 30], $account);
@@ -41,6 +44,7 @@ class AccountManagerTest extends TestCase {
 
     public function testWithdrawFromExistingAccount(): void
     {
+        $this->manager->reset();
         $this->manager->manageAccount('100', 20);
         $account = $this->manager->withdraw('100', 5);
         $this->assertEquals(['id' => '100', 'balance' => 15], $account);
@@ -48,6 +52,7 @@ class AccountManagerTest extends TestCase {
     
     public function testWithdrawFromNonExistingAccount(): void
     {
+        $this->manager->reset();
         $this->manager->manageAccount('100', 20);
         $account = $this->manager->withdraw('101', 5);
         $this->assertNull($this->manager->getBalance('101'));
@@ -55,6 +60,7 @@ class AccountManagerTest extends TestCase {
 
     public function testTransferBetweenAccounts(): void
     {
+        $this->manager->reset();
         $this->manager->manageAccount('100', 20);
         $result = $this->manager->transfer('100', '200', 10);
 

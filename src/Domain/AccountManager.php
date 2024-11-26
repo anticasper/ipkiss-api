@@ -6,6 +6,16 @@ class AccountManager {
 
     private array $accounts = [];
 
+    public function __construct()
+    {
+        $this->accounts = $_SESSION['accounts'] ?? [];
+    }
+
+    public function __destruct()
+    {
+        $_SESSION['accounts'] = $this->accounts;
+    }
+
     public function manageAccount(string $accountId, int $initialBalance): array
     {
         if (!isset($this->accounts[$accountId])) {
