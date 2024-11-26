@@ -44,11 +44,17 @@ $app->post('/event', function (Request $request, Response $response) use ($servi
 
     switch ($data['type']) {
         case 'deposit':
+            if (!isset($data['destination'], $data['amount']) || !is_numeric($data['amount'])) {
+                return $response->withStatus(400);
+            }
             $result = $service->deposit($data['destination'], $data['amount']);
             $response->getBody()->write(json_encode(['destination' => $result]));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
 
         case 'withdraw':
+            if (!isset($data['origin'], $data['amount']) || !is_numeric($data['amount'])) {
+                return $response->withStatus(400);
+            }
             $result = $service->withdraw($data['origin'], $data['amount']);
             if (!$result) {
                 $response->getBody()->write('0');
@@ -58,6 +64,10 @@ $app->post('/event', function (Request $request, Response $response) use ($servi
             return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
 
         case 'transfer':
+            if (!isset($data['origin'], $data['destination'], $data['amount']) || !is_numeric($data['amount'])) {
+                return $response->withStatus(400);
+            }
+
             $result = $service->transfer($data['origin'], $data['destination'], $data['amount']);
             if (!$result) {
                 $response->getBody()->write('0');
