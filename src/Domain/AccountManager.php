@@ -4,16 +4,31 @@ namespace App\Domain;
 
 class AccountManager {
 
+    private string $filePath;
     private array $accounts = [];
 
-    public function __construct()
+    public function __construct(string $filePath = 'accounts.json')
     {
-        $this->accounts = $_SESSION['accounts'] ?? [];
+        $this->filePath = $filePath;
+        $this->loadAccounts();
     }
 
     public function __destruct()
     {
-        $_SESSION['accounts'] = $this->accounts;
+        $this->saveAccounts();
+    }
+
+    private function loadAccounts(): void
+    {
+        if (file_exists($this->filePath)) {
+            $jsonContent = file_get_contents($this->filePath);
+            $this->accounts = json_decode($jsonContent, true) ?? [];
+        }
+    }
+
+    private function saveAccounts(): void
+    {
+        file_put_contents($this->filePath, json_encode($this->accounts, JSON_PRETTY_PRINT));
     }
 
     public function manageAccount(string $accountId, int $initialBalance): array
@@ -23,6 +38,7 @@ class AccountManager {
         } else {
             $this->accounts[$accountId]['balance'] += $initialBalance;
         }
+        $this->saveAccounts(); 
         return $this->accounts[$accountId];
     }
 
@@ -34,6 +50,7 @@ class AccountManager {
     public function reset(): void
     {
         $this->accounts = [];
+        $this->saveAccounts(); 
     }
 
     public function withdraw(string $accountId, int $amount): ?array
@@ -43,6 +60,7 @@ class AccountManager {
         }
 
         $this->accounts[$accountId]['balance'] -= $amount;
+        $this->saveAccounts(); 
 
         return $this->accounts[$accountId];
     }
@@ -61,5 +79,4 @@ class AccountManager {
             'destination' => $destinationAccount,
         ];
     }
-    
 }
