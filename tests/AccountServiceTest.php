@@ -50,5 +50,11 @@ class AccountServiceTest extends TestCase {
         $this->assertEquals(['id' => '100', 'balance' => 20], $account);
     }
 
+    public function testWithdrawFromNonExistingAccount(): void
+    {
+        $account = $this->service->withdraw('999', 10);
+        $this->assertNull($account);
+    }
+
 }
 
