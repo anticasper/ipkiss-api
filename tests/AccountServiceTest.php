@@ -43,5 +43,12 @@ class AccountServiceTest extends TestCase {
         $this->assertEquals(['id' => '100', 'balance' => 20], $account);
     }
 
+    public function testWithdrawFromExistingAccount(): void
+    {
+        $this->service->deposit('100', 30);
+        $account = $this->service->withdraw('100', 10);
+        $this->assertEquals(['id' => '100', 'balance' => 20], $account);
+    }
+
 }
 
